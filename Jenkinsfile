@@ -1,4 +1,6 @@
 //CODE_CHANGES = getGitChanges()
+def gv
+
 pipeline {
 
   // run with next available agent
@@ -22,8 +24,17 @@ pipeline {
   stages {
 
     stage("build") {
+      stage("init") {
+        steps {
+          script {
+            gv = load "script.groovy"
+          }
+        }
+      }
       steps {
-        echo 'building the application...'
+        script {
+          gv.buildApp()
+        }
         //echo "building version ${NEW_VERSION}"
         //sh "mvn install"
       }
@@ -42,13 +53,21 @@ pipeline {
         }
       }
       steps {
-        echo 'testing the application...'
+        //echo 'testing the application...'
+        script {
+          gv.testApp()
+        }
       }
     }
     stage("deploy") {
       steps {
-        echo 'deploying the application...'
-        echo "deploying version ${params.VERSION}"
+        //echo 'deploying the application...'
+        //echo "deploying version ${params.VERSION}"
+      steps {
+        script {
+          gv.deployApp()
+        }
+      }
         // withCredentials([
         //   usernamePassword(credentials: 'server-credentials', usernameVariable: USER, passwordVariable: PWD)
         // ]) {
