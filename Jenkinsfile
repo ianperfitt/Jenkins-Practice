@@ -5,15 +5,15 @@ pipeline {
 
   // run with next available agent
   agent any
-  tools {
-    maven 'Maven'
+  // tools {
+  //   maven 'Maven'
 
-  }
+  // }
 
-  environment {
-    NEW_VERSION = '1.3.0'
-    SERVER_CREDENTIALS = credentials('server-credentials')
-  }
+  // environment {
+  //   NEW_VERSION = '1.3.0'
+  //   SERVER_CREDENTIALS = credentials('server-credentials')
+  // }
 
   parameters {
     //string(name: 'VERSION', defaultValue: '', description: 'version to deploy on prod')
@@ -64,10 +64,9 @@ pipeline {
       steps {
         //echo 'deploying the application...'
         //echo "deploying version ${params.VERSION}"
-      steps {
         script {
           gv.deployApp()
-        }
+        
       }
         // withCredentials([
         //   usernamePassword(credentials: 'server-credentials', usernameVariable: USER, passwordVariable: PWD)
